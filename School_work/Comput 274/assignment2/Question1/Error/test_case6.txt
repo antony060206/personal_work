@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Github_rep\personal_work\School_work\Comput 274\assignment2\Question1\solutionQuestion1.py", line 29, in <module>
+    main()
+  File "C:\Github_rep\personal_work\School_work\Comput 274\assignment2\Question1\solutionQuestion1.py", line 26, in main
+    print(round(fractal_eval(exp)))
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Github_rep\personal_work\School_work\Comput 274\assignment2\Question1\solutionQuestion1.py", line 20, in fractal_eval
+    fractal_eval(expr_string)
+  File "C:\Github_rep\personal_work\School_work\Comput 274\assignment2\Question1\solutionQuestion1.py", line 17, in fractal_eval
+    expr_string = expr_string.replace(expr_string[sqrleft + 1:sqrright], str((eval(calculate_str)) ** 2))
+                                                                              ^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 1
+    2 * 3 +  9  * 
+SyntaxError: invalid syntax
