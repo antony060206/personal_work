@@ -21,13 +21,14 @@ def fractal_eval(expr):
 
         fractal_eval(expr_string)
 
-
-    return eval(expr_string)
+    else:
+        print(expr_string.strip())
+        return int(expr_string)
 
                 
 def main():
     exp = input()
-    print(round(fractal_eval(exp)))
+    print((fractal_eval(exp)))
 
 if __name__ == "__main__":
     main()
