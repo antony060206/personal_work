@@ -1,27 +1,15 @@
 
 def permutation(n):
+    def generate(current, remainder):
+        if len(current) == n:
+            print(current)
+            return
 
-    if n == 3:
-        fix = n+1
-        mainlist = []
+        for x in remainder:
+            new_current = current + [x]
+            new_remainder = [y for y in remainder if y != x]
+            generate(new_current, new_remainder)
 
-    sublist = []
-    for x in range (1, fix):
-        if x != n:
-            sublist.append(x)
-    sublist.append(n)
-    mainlist.append(sublist)
-
-    for y in range (1, fix, -1):
-        if y != n:
-            sublist.append(y)
-    sublist.append(n)
-    mainlist.append(sublist)
-
-    minvalue = fix-1
-    if minvalue != 0:
-        permutation(minvalue)
-    else:
-        print(mainlist)
+    generate([], list(range(1, n + 1)))
 
 permutation(3)

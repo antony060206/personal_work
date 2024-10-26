@@ -10,7 +10,8 @@ class StackUsingQuese:
             self.queue.enqueue(self.queue.pop())
 
     def pop(self):
-        return self.queue.pop()
+        if self.size() == len(self.queue.items):
+            return self.queue.pop()
 
     def top(self):
         return self.queue.items[self.size() - 1]
@@ -42,6 +43,7 @@ class Queue:
         self.items.insert(0,item)
 
     def pop(self):
+
         return self.items.pop()
 
 
@@ -57,4 +59,3 @@ print(stack.pop())
 stack.push(4)
 print(stack.pop())
 print(stack.is_empty())
-print(stack)
