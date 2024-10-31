@@ -1,1 +1,1 @@
-/var/www/nginx
+/var/www/nginx/

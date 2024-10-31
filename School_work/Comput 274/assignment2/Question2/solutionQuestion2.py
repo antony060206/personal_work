@@ -14,6 +14,8 @@ def simplify_path(path):
         dots = []
         slashes_loc = []
 
+        remove_loc = []
+
         location = 0
         first_slash = False
         for x in path:
@@ -27,6 +29,7 @@ def simplify_path(path):
                     groups.append(" ")
                     slashes_loc.append(location)
                 else:
+                    print(x)
                     groups.append(x)
 
 
@@ -35,43 +38,20 @@ def simplify_path(path):
                 dots.append('.')
                 if len(dots) == 2:
                     dots.clear()
-                    # for n in range(2):
-                    #     for item in groups[::-1]:
-                    #         if item
-                    # del groups[copy_groups.rfind(" ")+1:copy_groups.rfind(" ", copy_groups.find(" "))]
-
+                    for item_index in range(len(groups)-1,0 , -1):
+                        if(len(remove_loc) < 2):
+                            if (groups[item_index] == " "):
+                                remove_loc.append(item_index)
+                    del groups[remove_loc[1]:remove_loc[0]]
+                    remove_loc.clear()
 
 
             location += 1
             first_slash = False
-            #if len(groups) != 0 and grou
-        print(slashes_loc)
-        print(groups)
-
-
-        current.append(groups)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            print(groups)
+        final_string = ''.join(groups)
+        final_string = final_string.replace(" ", "/")
+        return final_string
 
 
 

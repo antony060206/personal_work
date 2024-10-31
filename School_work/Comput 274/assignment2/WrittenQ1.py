@@ -12,4 +12,4 @@ def permutation(n):
 
     generate([], list(range(1, n + 1)))
 
-permutation(3)
+permutation(4)
