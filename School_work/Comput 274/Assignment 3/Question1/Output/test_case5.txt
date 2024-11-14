@@ -1,0 +1,13 @@
+W -> N C
+N -> F V
+F -> O H
+O -> M R
+H -> Q I
+V -> X Z
+X -> P J
+Z -> Y K
+C -> G D
+G -> B A
+B -> U L
+A -> S
+D -> T E

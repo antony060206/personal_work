@@ -1,0 +1,7 @@
+W -> AA AB AC
+AA -> BA BB
+BB -> CA CB CD
+AB -> BC
+BC -> CE X CG
+AC -> BD
+BD -> CH CI

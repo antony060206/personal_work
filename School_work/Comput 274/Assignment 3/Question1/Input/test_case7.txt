@@ -1,0 +1,2 @@
+40 3
+W AA AB AC BA BB - - BC - - - BD - - - CA CB CD - - - - - - CE X CG - - - - - - - - - CH - CI
