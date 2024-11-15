@@ -1,8 +1,8 @@
-# Name: <replace with your name>
-# ccid: <replace with your ccid>
-# studentId: <replace with your student id>
-# operating system: <replace with yours >
-# python version: <replace with your python version>
+# Name: Antony Feng
+# ccid: zfeng8
+# studentId: 1802829
+# operating system: windows 11
+# python version: 3.12
 
 # Starter Code from https://www.geeksforgeeks.org/python-linked-list/
 class Node:
@@ -95,12 +95,66 @@ class LinkedList:
     # Removes all duplicate nodes from the linked list
     def remove_duplicates(self):
         # TODO: Your Implementation Here
-        pass
-        
+
+        current_node = self.head
+
+        if current_node is None or current_node.next is None: # return self.head if the linked list is None existent or the next
+            return self.head
+
+        while current_node != None: #while loop as long as current_node object is not empty
+            next_node = current_node #set the next_node at first as a copy of the current node (head)
+
+            while next_node.next != None: # while next_node is not empty
+
+                if next_node.next.data == current_node.data: #if next_node.next value is the same as current node value point to the next next node
+
+                    next_node.next = next_node.next.next
+
+                else:
+                    next_node = next_node.next #else go to the next node
+
+            current_node = current_node.next#once the inner while loop is finished, increment by one node
+
+        #checks the length of the modified linked lists, only return if length specification has been met
+        size_linked_list = self.sizeOfLL()
+        if 1 > size_linked_list or 100 < size_linked_list:
+            raise Exception("sorry linked list out of range")
+
+        else:
+            return self.head
+
+
+
     # Merges all nodes from llist2 into the linked list object, maintains sorted order
     def merge(self, llist2):
         # TODO: Your Implementation Here
-        pass
+
+        current_list1_node = self.head #make reference of the head of list1 and list2 as well as create an empty list
+        current_list2_node = llist2.head
+        data_list = []
+
+        while current_list1_node != None: # While untill reached the end of list1 then the last node will point to the head of list 2
+
+            if current_list1_node.next == None:
+                current_list1_node.next = current_list2_node
+                break
+
+            current_list1_node = current_list1_node.next
+
+        current_list1_node = self.head
+
+        while current_list1_node != None: #append each individual value of list1 into data_list list.
+            data_list.append(current_list1_node.data)
+            current_list1_node = current_list1_node.next
+
+        data_list.sort()  # sort list
+        count = 0
+
+        for data in data_list: #update the value of each node in list1 with the sorted values from data_list
+            self.updateNode(data,count)
+            count += 1
+
+        return self.head
         
 def main():
     llist_nodes = input().split()

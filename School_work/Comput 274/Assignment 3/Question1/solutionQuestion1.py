@@ -22,29 +22,31 @@ def read_tree():
         The root of the tree as a TreeNode object
     """
 
-    numlist = input().split(" ")
+    numlist = input().split(" ") # split the input of both numbers and the letters
     children = (input().split(" "))
-    parent_tree = []
+    parent_tree = [] #create a list to store all the nodes that has children
     count = 1
 
 
     for i in range(0,int(numlist[0])): #start from the root of the tree
 
-        if count <= int(numlist[0]):
+        if count <= int(numlist[0]): # start the count at 1, and begin instantiate each letter from the beginning as a new node
             node = TreeNode(children[i])
-            parent_tree.append(node)
+            parent_tree.append(node) #add the parent nodes into the list
 
 
-            for x in range(count,int(numlist[1])+count):
-                # print(x, count,int(numlist[1])+count, i, len(parent_tree), count)
+            for x in range(count,int(numlist[1])+count):#start from the count, add the next three letters as children of the parent node at i
+
                 if(x <= int(numlist[0])-1):
                     if (children[x] != "-" and parent_tree[i].get_children() != "-"):
                         child_node = TreeNode(children[x])
                         parent_tree[i].add_child(child_node)
-                        # print(parent_tree[i].get_value(), children[x], i, count)
-            count += int(numlist[1])
+
+            count += int(numlist[1])# append the count by the maximum of children a node can have
 
     root = parent_tree[0]
+
+    #This part below essentially loops the parent_node list from reversal, and take each parent node and add it as a child of another parent node
     for y in range(len(parent_tree)-1, -1, -1):
         for parent in range(y-1, -1, -1):
             len_root = 0
