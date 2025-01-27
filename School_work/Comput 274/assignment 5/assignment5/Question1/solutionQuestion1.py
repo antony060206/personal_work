@@ -4,6 +4,7 @@
 # operating system: windows 11
 # python version: 3.12
 
+#count the coins utilizing methods of recursion
 def min_coins(coins, S):
 
     memo = [[-1] * (S + 1) for _ in range(len(coins))]
@@ -18,10 +19,10 @@ def min_coins(coins, S):
         if memo[i][S] != -1:
             return memo[i][S]
 
-        include = 1 + sub_min_coins(i, S - coins[i], coins, memo)
-        exclude = sub_min_coins(i + 1, S, coins, memo)
+        include = 1 + sub_min_coins(i, S - coins[i], coins, memo) # continue to run recursion using the same denomination buy subtract from total amount
+        exclude = sub_min_coins(i + 1, S, coins, memo)# run recursion using the next denomination.
 
-        memo[i][S] = min(exclude, include)
+        memo[i][S] = min(exclude, include)# pick the minimum between exclusion side and inclusion side
         return memo[i][S]
 
     value = sub_min_coins(0, S, coins, memo)
