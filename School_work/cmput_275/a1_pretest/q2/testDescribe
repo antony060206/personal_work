@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+
+# Get the filepath from the argument
+test_set_file="$1"
+
+# Check if a command-line argument is provided
+if [ "$#" -ne 1 ]; then
+  echo "Error: Please provide command-line argument" >&2
+  exit 1
+fi
+
+regex="test1|test2|test3|test4"
+
+# Iterate through the contents of the test set file
+while read -r stem; do
+  # Skip empty lines
+  [ -z "$stem" ] && continue
+
+  matches=$(echo "$stem" | grep -oE "$regex")
+
+ 
+	for match in $matches; do 
+
+  if [[ -n "$match" ]]; then
+
+	# Check if the corresponding .desc file exists
+  	desc_file="${match}.desc"
+	
+	
+
+  	if [ -f "$desc_file" ]; then
+	# If it exists, print its contents
+    cat "$desc_file"
+
+  	else
+    # If it doesn't exist, print the "No test description" message
+    echo "${match} No test description"
+	fi
+
+  fi
+  done
+done < "$test_set_file"
+
