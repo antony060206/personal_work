@@ -24,9 +24,10 @@ while read -r stem; do
 
 	# Check if the corresponding .desc file exists in current working directory
   	desc_file="${match}.desc"
-  
+
+    #echo $desc_file
     
-  	if [ -f "${PWD}/${desc_file}" ]; then
+  	if [ -f "${desc_file}" ]; then
 	# If it exists, print its contents
     cat "$desc_file"
 
