@@ -9,26 +9,24 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-regex="test1|test2|test3|test4"
+# regex="test1|test2|test3|test4"
 
 # Iterate through the contents of the test set file
 while read -r stem; do
   # Skip empty lines
   [ -z "$stem" ] && continue
 
-  matches=$(echo "$stem" | grep -oE "$regex")
-
+  matches=$(echo "$stem" | grep -oE "[^ ]+")
  
 	for match in $matches; do 
 
   if [[ -n "$match" ]]; then
 
-	# Check if the corresponding .desc file exists
+	# Check if the corresponding .desc file exists in current working directory
   	desc_file="${match}.desc"
-	
-	
-
-  	if [ -f "$desc_file" ]; then
+  
+    
+  	if [ -f "${PWD}/${desc_file}" ]; then
 	# If it exists, print its contents
     cat "$desc_file"
 
