@@ -1,0 +1,4 @@
+W -> A B X
+A -> C
+B -> D E F
+X -> G H

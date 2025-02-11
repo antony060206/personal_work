@@ -1,0 +1,5 @@
+W -> N C F V X
+N -> G D O H Z
+C -> B A T E M
+F -> R Q I P J
+V -> Y K U L S

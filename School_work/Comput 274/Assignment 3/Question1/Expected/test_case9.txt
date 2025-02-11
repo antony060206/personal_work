@@ -1,0 +1,7 @@
+W -> BP BC BJ
+BP -> BG BN BH
+BG -> BA BF BK
+BN -> BO AC AD
+BH -> BI X
+BC -> BM BD BL
+BJ -> AB AA BB BE
