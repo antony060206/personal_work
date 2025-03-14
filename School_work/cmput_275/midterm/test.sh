@@ -1,0 +1,2 @@
+x=CMPUT
+printf(${x})

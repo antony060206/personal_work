@@ -43,7 +43,7 @@ int pop_stack(struct Stack *s) {
 
 int main() {
     struct Stack s1; // Declare the stack
-    init_stack(&s1, 100); 
+    init_stack(&s1, 4); //initizalize dynamic arrays with 4
 
     char c;
     while ((c = getchar()) != EOF) {

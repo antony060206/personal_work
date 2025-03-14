@@ -10,28 +10,28 @@ struct sets {
 
 // Function to resize the set when full
 void resize_set(struct sets *set) {
-    int *new_elements = (int *)realloc(set->elements, set->capacity * 2 * sizeof(int));
-    if (!new_elements) {
+    set->capacity *= 2; 
+    set->elements = realloc(set->elements, sizeof(int) * set->capacity);
+    if (!set->elements) {
         fprintf(stderr, "Memory reallocation failed\n");
         exit(1);
     }
-    set->elements = new_elements;
 }
 
 
 void add_element (struct sets *set, int value){
-    if(set->size >= set->capacity){
+    
+    if(set->size == set->capacity-1){
         resize_set(set);
     }
-    else{
-        for (int i =0; i < set->size; ++i){
-            if(set -> elements[i] ==value){
-                return;
-            }
+    for (int i =0; i < set->size; ++i){
+        if(set -> elements[i] ==value){
+            return;
         }
-        set ->elements[set->size++] = value;
     }
+    set ->elements[set->size++] = value;
 }
+
 
 void remove_element (struct sets *set, int value){
     int index = -1;
@@ -81,7 +81,7 @@ void print_set(struct sets *set){
 
 void print_union(struct sets *setx, struct sets *sety) {
     struct sets *union_set = malloc(sizeof(struct sets)); 
-    union_set->capacity = 100;
+    union_set->capacity = 4;
     union_set->size = 0;
     union_set->elements = malloc(sizeof(int) * union_set->capacity);  
     
@@ -103,7 +103,7 @@ void print_union(struct sets *setx, struct sets *sety) {
 
 void print_intersection(struct sets *setx, struct sets*sety) {
     struct sets *intersection_set = malloc(sizeof(struct sets)); 
-    intersection_set->capacity = 100;
+    intersection_set->capacity = 4;
     intersection_set->size = 0;
     intersection_set->elements = malloc(sizeof(int) * intersection_set->capacity);  
 
@@ -125,8 +125,8 @@ void print_intersection(struct sets *setx, struct sets*sety) {
 int main() {
     struct sets *setx = malloc(sizeof(struct sets)); 
     struct sets *sety = malloc(sizeof(struct sets));  
-    setx->capacity = 100;
-    sety->capacity = 100;
+    setx->capacity = 4;
+    sety->capacity = 4;
     setx->size = 0;
     sety->size = 0;
     setx->elements = malloc(sizeof(int) * setx->capacity);  
@@ -144,6 +144,7 @@ int main() {
 
         // Ignore leading whitespace and check the command
         if (sscanf(command, "%s", operation) == 1) {
+            printf("%s", command);
             if (strcmp(operation, "q") == 0) {
                 break;  // Quit the program
             } else if (strcmp(operation, "a") == 0 || strcmp(operation, "r") == 0) {
@@ -155,7 +156,7 @@ int main() {
                         add_element(set, value);  // Add element
                     } else if (strcmp(operation, "r") == 0) {
                         remove_element(set, value);  // Remove element
-                    }
+                    }   
                 }
             } else if (strcmp(operation, "p") == 0) {
                 char targ;
