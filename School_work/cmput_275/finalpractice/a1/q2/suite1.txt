@@ -1,0 +1,3 @@
+./test1 /home/antonyf/git_repo/personal_work/School_work/cmput_275/finalpractice/a1/q2/test2
+test3
+test4
