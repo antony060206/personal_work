@@ -14,7 +14,7 @@ void init_stack(struct Stack *s, int initial_capacity) {
     s->array = malloc(sizeof(int) * initial_capacity); 
     s->top = -1; 
     s->capacity = initial_capacity; 
-}
+}   
 
 // Function to append to the stack (with reallocation if necessary)
 void append_stack(struct Stack *s, int value) {

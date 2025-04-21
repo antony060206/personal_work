@@ -73,7 +73,7 @@ int Roman_num (char letter){
     }
 
     
-    while (!strchr(Roman, '\n')) {
+    while (!strchr(Roman, '\n') == NULL) {
         capacity *= 2;
         Roman = realloc(Roman, capacity);
         if (!fgets(Roman + strlen(Roman), capacity / 2, stdin)) {
