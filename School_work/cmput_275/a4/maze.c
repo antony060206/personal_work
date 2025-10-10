@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-struct Pos {
-    int x, y;
-  };
+#include "maze.h"
   
   // The Maze structure, free for you to define
   // as you like in maze.c
