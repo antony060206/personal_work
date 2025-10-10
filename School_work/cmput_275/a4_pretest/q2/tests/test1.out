@@ -1,0 +1,14 @@
+Finished reading maze, enter commands
+-------
+|PII0I|
+|OXXOX|
+|OXOIX|
+|O0OOG|
+-------
+-------
+|SII0I|
+|OXXOX|
+|OXOIX|
+|OPOOG|
+-------
+Error, your destroyMaze doesn't return NULL
