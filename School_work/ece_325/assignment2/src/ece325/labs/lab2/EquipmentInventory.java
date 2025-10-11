@@ -19,8 +19,8 @@ public class EquipmentInventory {
 	 * Create an EquipmentInventory object by initializing the inventory and inventoryCount objects.
 	 */
 	public EquipmentInventory() {
-		inventory = new ArrayList<>();
-		inventoryCount = new HashMap<>();
+		inventory = new ArrayList<Equipment>();
+		inventoryCount = new HashMap<String, Integer>();
 	}
 
 	/**
@@ -29,7 +29,14 @@ public class EquipmentInventory {
 	 * @param e The equipment object to add
 	 */
 	public void add(Equipment e) {
-		inventory.add(e);
+		if(e == null){
+			return; 
+		}
+
+		if(!inventory.contains(e)){
+			inventory.add(e);	
+			increaseInventoryCount(e);
+		}
 	}
 
 	/**
@@ -37,6 +44,13 @@ public class EquipmentInventory {
 	 * @param e The equipment object to remove
 	 */
 	public void remove(Equipment e) {
+		if(e == null){
+			return;
+		}
+		if(inventory.contains(e)){
+			inventory.remove(e);	
+		}
+		decreaseInventoryCount(e);
 		
 	}
 
@@ -48,6 +62,14 @@ public class EquipmentInventory {
 	 * @param e The type of equipment for which we want to increase the inventoryCount
 	 */
 	protected void increaseInventoryCount(Equipment e) {
+		//if does not have type
+		String key = e.toString();
+		if(!inventoryCount.containsKey(key)){
+			inventoryCount.put(key, 1);
+		}
+		else{
+			inventoryCount.replace(key, inventoryCount.get(key)+1);
+		}
 		
 	}
 
@@ -60,6 +82,16 @@ public class EquipmentInventory {
 	 * @param e The type of equipment for which we want to decrease the inventoryCount
 	 */
 	protected void decreaseInventoryCount(Equipment e) {
+
+		//if have type
+		String key = e.toString();
+		if(inventoryCount.containsKey(key) && inventoryCount.get(key) > 0){
+			inventoryCount.replace(key, inventoryCount.get(key)-1);
+		}
+		
+		if (inventoryCount.get(key) == 0){
+			inventoryCount.remove(key);
+		}
 		
 	}
 
@@ -70,6 +102,11 @@ public class EquipmentInventory {
 	 * @return
 	 */
 	public Integer getInventoryCount(Equipment e) {
+		//loop and increment to find the total number of said item in the inventory
+		if (e == null) return -1;
+    	String key = e.toString();
+    	Integer v = inventoryCount.get(key);
+    	return (v == null) ? -1 : v; 
 		
 	}
 	
@@ -82,33 +119,69 @@ public class EquipmentInventory {
 	 * @return the string representation of the EquipmentInventory
 	 */
 	public String toString() {
+		String my_str = "[EquipmentInventory: ";
 		
+		int current_size = 0;
+		for (Map.Entry<String, Integer> entry : inventoryCount.entrySet()){
+			
+			current_size++;
+			String key = entry.getKey();
+   			String value = Integer.toString(entry.getValue());
+			if(current_size < inventoryCount.size()){
+				my_str = my_str +  key + ": " + value + ", ";
+			}
+			else{
+				my_str = my_str +  key + ": " + value;
+			}
+		}
+
+		my_str = my_str + "]";
+
+		return my_str;
 	}
 
 	public static void main(String[] args) {
 
 		EquipmentInventory list_inventory = new EquipmentInventory();
 
-		//add each individual objects
-		Equipment Furniture = new Furniture();
-		Equipment Instrument = new Instrument();
-
-		list_inventory.add(Guitar);
-		list_inventory.add(keyboards);
-		list_inventory.add(stools);
-		list_inventory.add(chair);
-
-		//print content of inventory 
-		System.out.println(list_inventory.toString());
-
-		//remove one keyboard and one stool 
-		list_inventory.remove();
-		list_inventory.remove();
-
-		//print content of inventory 
-		System.out.println(list_inventory.toString());
-
 		
+		// 3 guitars
+		Equipment g1 = new Guitar();
+		Equipment g2 = new Guitar();
+		Equipment g3 = new Guitar();
+
+		// 2 keyboards
+		Equipment k1 = new Keyboard();
+		Equipment k2 = new Keyboard();
+
+		// 3 stools
+		Equipment s1 = new Stool();
+		Equipment s2 = new Stool();
+		Equipment s3 = new Stool();
+
+		// 1 chair
+		Equipment c1 = new Chair();
+
+		//Add them to the inventory
+		list_inventory.add(g1);
+		list_inventory.add(g2);
+		list_inventory.add(g3);
+		list_inventory.add(k1);
+		list_inventory.add(k2);
+		list_inventory.add(s1);
+		list_inventory.add(s2);
+		list_inventory.add(s3);
+		list_inventory.add(c1);
+
+		// Print initial inventory
+		System.out.println(list_inventory);
+
+		//Remove one keyboard and one stool
+		list_inventory.remove(k1);
+		list_inventory.remove(s1);
+
+		//print updated inventroy
+		System.out.println(list_inventory);
 
 		
 	}
