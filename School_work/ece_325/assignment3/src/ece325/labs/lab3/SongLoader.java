@@ -61,6 +61,7 @@ public class SongLoader {
 		Scanner s = null;
 
     try {
+		if (songString == null) throw new InvalidSongFormatException("Null input");
         s = new Scanner(songString);
         s.useDelimiter(";"); // divides each line into song, instruments, and rating
 

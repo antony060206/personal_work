@@ -12,12 +12,19 @@ public class Song {
 	private AverageRating averageRating;
 	
 
-	public Song(){}
-
 	public Song(String title, ArrayList<String> instruments, AverageRating rating) {
-		//adds the titles of the songs 
-		this.title = title;
-		this.instruments = instruments;
+		//adds the titles and paremeters of the songs 
+		if (title == null) title = "";
+        this.title = title;
+        this.instruments = new ArrayList<>();
+        if (instruments != null) {
+            for (String s : instruments) {
+                if (s != null) this.instruments.add(s.trim());
+            }
+        }
+	
+		//sort the instruments based on 
+		Collections.sort(this.instruments, String.CASE_INSENSITIVE_ORDER);
 		this.averageRating = rating;
 		
 	}
@@ -32,18 +39,14 @@ public class Song {
 		//if already the same object /or not
 		if(this == o) return true;
 		if (o == null) return false;
+		if (!(o instanceof Song)) return false; 
 
 		//check for same title
 		Song other_song = (Song) o;
-		if(this.title != other_song.title);
+		if(!this.title.equals(other_song.title)) return false;
 
 		//check for same instruments , where order doesnt matter
-		ArrayList<String> a = new ArrayList<>(this.instruments);
-    	ArrayList<String> b = new ArrayList<>(other_song.instruments);
-    	Collections.sort(a);
-    	Collections.sort(b);
-
-    	return a.equals(b);
+		return this.instruments.equals(other_song.instruments);
 	}
 
 	
@@ -61,7 +64,7 @@ public class Song {
 	}
 	
 	public void addRating(float rating) {
-		addRating(rating);
+		averageRating.addRating(rating);
 	}
 	
 	public AverageRating getRating() {
