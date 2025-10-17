@@ -66,9 +66,6 @@ public class SongLoader {
         s.useDelimiter(";"); // divides each line into song, instruments, and rating
 
         // Expecting 3 parts
-        if (!s.hasNext()) throw new InvalidSongFormatException("Missing rating field.");
-        float ratingValue = Float.parseFloat(s.next().trim());
-        AverageRating new_rating = new AverageRating(ratingValue);
 
         if (!s.hasNext()) throw new InvalidSongFormatException("Missing song name field.");
         String songName = s.next().trim();
@@ -76,9 +73,15 @@ public class SongLoader {
         if (!s.hasNext()) throw new InvalidSongFormatException("Missing instruments field.");
         ArrayList<String> instruments = parseInstrumentsList(s.next().trim());
 
+		if (!s.hasNext()) throw new InvalidSongFormatException("Missing rating field.");
+        float ratingValue = Float.parseFloat(s.next().trim());
+        AverageRating new_rating = new AverageRating(ratingValue);
+
+		
         return new Song(songName, instruments, new_rating);
     } 
     catch (NumberFormatException e) {
+		
         throw new InvalidSongFormatException("Invalid rating format: " + e.getMessage());
     } 
     catch (Exception e) {
