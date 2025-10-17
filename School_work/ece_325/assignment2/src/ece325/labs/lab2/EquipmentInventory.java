@@ -183,6 +183,8 @@ public class EquipmentInventory {
 		//print updated inventroy
 		System.out.println(list_inventory);
 
+
+
 		
 	}
 }
