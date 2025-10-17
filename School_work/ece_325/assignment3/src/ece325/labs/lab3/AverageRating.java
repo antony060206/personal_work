@@ -3,7 +3,7 @@ package ece325.labs.lab3;
 /** 
  * Finish this class.
  */
-public class AverageRating {
+public class AverageRating extends Song{
 	private float avgRating;
 	private int count;
 	
@@ -12,7 +12,7 @@ public class AverageRating {
 		
 	}
 	
-	/**
+	/**  
 	 * Recomputes the average rating taking the new rating r into account.
 	 * @param rating 
 	 */

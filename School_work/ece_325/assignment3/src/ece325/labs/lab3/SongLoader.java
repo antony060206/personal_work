@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /** 
@@ -26,24 +27,21 @@ public class SongLoader {
 	 * @return the loaded SongCollection
 	 */
 	public static SongCollection loadSongs(String file) throws IOException{
-		Scanner s = null; 
 		SongCollection song_collection = new SongCollection();
 		BufferedReader in = null;
-		
 
-		try {
-			in = new BufferedReader(new FileReader(file));
+		in = new BufferedReader(new FileReader(file));
 
 			String line; 
 			while((line = in.readLine()) != null){
-				s = new Scanner()
+				try {
+					song_collection.add(parseSong(line));
+				} catch (InvalidSongFormatException e) {
+					e.printStackTrace();
+				}
 			}
-
-		}
-		finally{
-
-		}
-
+		
+			in.close();
 
 
 		return song_collection; 
@@ -60,8 +58,37 @@ public class SongLoader {
 	 * @throws InvalidSongFormatException
 	 */
 	public static Song parseSong(String songString) throws InvalidSongFormatException {
-		
-		
+		Scanner s = null;
+
+    try {
+        s = new Scanner(songString);
+        s.useDelimiter(";"); // divides each line into song, instruments, and rating
+
+        // Expecting 3 parts
+        if (!s.hasNext()) throw new InvalidSongFormatException("Missing rating field.");
+        float ratingValue = Float.parseFloat(s.next().trim());
+        AverageRating new_rating = new AverageRating(ratingValue);
+
+        if (!s.hasNext()) throw new InvalidSongFormatException("Missing song name field.");
+        String songName = s.next().trim();
+
+        if (!s.hasNext()) throw new InvalidSongFormatException("Missing instruments field.");
+        ArrayList<String> instruments = parseInstrumentsList(s.next().trim());
+
+        return new Song(songName, instruments, new_rating);
+    } 
+    catch (NumberFormatException e) {
+        throw new InvalidSongFormatException("Invalid rating format: " + e.getMessage());
+    } 
+    catch (Exception e) {
+        throw new InvalidSongFormatException("Failed to parse song: " + e.getMessage());
+    } 
+    finally {
+        if (s != null) {
+            s.close();
+        }
+    }
+
 	}
 
 	/**
@@ -74,10 +101,16 @@ public class SongLoader {
 	 * @return an ArrayList with one String per parsed instrument
 	 */
 	public static ArrayList<String> parseInstrumentsList(String instruments) {
+		ArrayList<String> instrumentsArrayList = new ArrayList<String>();
+		String[] myArray = instruments.split(",");
+		for (String s : myArray) {
+  			instrumentsArrayList.add(s);
+		}
+		return instrumentsArrayList;
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String file = "songratings.txt";
 		System.out.println(SongLoader.loadSongs(file));
 	}
