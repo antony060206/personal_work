@@ -1,7 +1,6 @@
 package ece325.labs.lab1;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
@@ -65,8 +64,8 @@ public class BandNameGenerator {
 
 		//randomlly generate adjectives and nouns
 		String adj1 = adjectives[r.nextInt(adjectives.length)];
-		String adj2 = adjectives[r.nextInt(adjectives.length)];;
-		String noun = nouns[r.nextInt(nouns.length)];;
+		String adj2 = adjectives[r.nextInt(adjectives.length)];
+		String noun = nouns[r.nextInt(nouns.length)];
 
 		adj1 = capitalizeFirst(adj1);
 		adj2 = capitalizeFirst(adj2); 

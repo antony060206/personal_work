@@ -1,140 +1,166 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-class GameOfLife {
-private:
-    char** grid;
-    int rows;
-    int cols;
-    int capacity;  // current allocated rows
+class Grid {
+    int width = 0;
+    int height = 0;
+    int capacity = 4;
 
-public:
-    GameOfLife() {
-        rows = 0;
-        cols = 0;
-        capacity = 4;
-        grid = new char*[capacity];
-    }
+    char** current = nullptr;
+    char** next = nullptr;
 
-    ~GameOfLife() {
-        for (int i = 0; i < rows; ++i)
-            delete[] grid[i];
-        delete[] grid;
-    }
-
-    void doubleCapacity() {
-        int newCapacity = capacity * 2;
-        char** newGrid = new char*[newCapacity];
-        for (int i = 0; i < rows; ++i)
-            newGrid[i] = grid[i];
-        delete[] grid;
-        grid = newGrid;
-        capacity = newCapacity;
-    }
-
-    void readInitialGrid() {
-        string line;
-        while (getline(cin, line)) {
-            if (line == "x")
-                break;
-
-            if (cols == 0)
-                cols = line.length();
-            else if (line.length() != static_cast<size_t>(cols))
-                continue;  // skip invalid rows
-
-            if (rows >= capacity)
-                doubleCapacity();
-
-            grid[rows] = new char[cols];
-            for (int j = 0; j < cols; ++j)
-                grid[rows][j] = line[j];
-            ++rows;
-        }
-    }
-
-    void printGrid() {
-        for (int i = 0; i < cols; ++i)
-            cout << '|';
-        cout << '\n';
-
+    void allocate(int rows, int cols) {
+        current = new char*[rows];
+        next = new char*[rows];
         for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j)
-                cout << grid[i][j];
-            cout << '\n';
+            current[i] = new char[cols + 1];  // +1 for null terminator
+            next[i] = new char[cols + 1];
         }
-
-        for (int i = 0; i < cols; ++i)
-            cout << '|';
-        cout << '\n';
     }
 
-    int countNeighbors(int r, int c) {
+    void deallocate() {
+        for (int i = 0; i < height; ++i) {
+            delete[] current[i];
+            delete[] next[i];
+        }
+        delete[] current;
+        delete[] next;
+    }
+
+    int countAliveNeighbors(int y, int x) {
         int count = 0;
-        for (int dr = -1; dr <= 1; ++dr) {
-            for (int dc = -1; dc <= 1; ++dc) {
-                if (dr == 0 && dc == 0)
-                    continue;
-
-                int nr = r + dr;
-                int nc = c + dc;
-
-                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                    if (grid[nr][nc] == 'O')
-                        ++count;
+        for (int dy = -1; dy <= 1; ++dy) {
+            for (int dx = -1; dx <= 1; ++dx) {
+                if (dy == 0 && dx == 0) continue; // skip self
+                int ny = y + dy;
+                int nx = x + dx;
+                if (ny >= 0 && ny < height && nx >= 0 && nx < width) {
+                    if (current[ny][nx] == 'O') {
+                        count++;
+                    }
                 }
             }
         }
         return count;
     }
 
-    void step() {
-        char** newGrid = new char*[rows];
-        for (int i = 0; i < rows; ++i)
-            newGrid[i] = new char[cols];
+public:
+    Grid() {
+        allocate(capacity, capacity);
+    }
 
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                int neighbors = countNeighbors(i, j);
-                if (grid[i][j] == 'O') {
-                    if (neighbors < 2 || neighbors > 3)
-                        newGrid[i][j] = '.';
+    ~Grid() {
+        deallocate();
+    }
+
+    void readGrid() {
+        string line;
+        int lineNum = 0;
+
+        while (getline(cin, line)) {
+            if (line == "x") break;
+
+            if (lineNum >= capacity) {
+                // Double capacity
+                int newCap = capacity * 2;
+                char** newCur = new char*[newCap];
+                char** newNext = new char*[newCap];
+                for (int i = 0; i < capacity; ++i) {
+                    newCur[i] = current[i];
+                    newNext[i] = next[i];
+                }
+                for (int i = capacity; i < newCap; ++i) {
+                    newCur[i] = nullptr;
+                    newNext[i] = nullptr;
+                }
+                delete[] current;
+                delete[] next;
+                current = newCur;
+                next = newNext;
+                capacity = newCap;
+            }
+
+            int len = line.length();
+            if (width < len) width = len;
+
+            current[lineNum] = new char[len + 1];
+            next[lineNum] = new char[len + 1];
+
+            for (int i = 0; i < len; ++i) {
+                current[lineNum][i] = line[i];
+                next[lineNum][i] = line[i];
+            }
+            current[lineNum][len] = '\0';
+            next[lineNum][len] = '\0';
+
+            ++lineNum;
+        }
+
+        height = lineNum;
+    }
+
+    void printGrid() const {
+        for (int i = 0; i < width; ++i) cout << '|';
+        cout << '\n';
+        for (int i = 0; i < height; ++i) {
+            cout << current[i] << '\n';
+        }
+        for (int i = 0; i < width; ++i) cout << '|';
+        cout << '\n';
+    }
+
+    void updateGrid() {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                int alive = countAliveNeighbors(y, x);
+                if (current[y][x] == 'O') {
+                    if (alive < 2 || alive > 3)
+                        next[y][x] = '.';
                     else
-                        newGrid[i][j] = 'O';
+                        next[y][x] = 'O';
                 } else {
-                    if (neighbors == 3)
-                        newGrid[i][j] = 'O';
+                    if (alive == 3)
+                        next[y][x] = 'O';
                     else
-                        newGrid[i][j] = '.';
+                        next[y][x] = '.';
                 }
             }
         }
 
-        // Free old grid
-        for (int i = 0; i < rows; ++i)
-            delete[] grid[i];
-        delete[] grid;
-
-        grid = newGrid;
-    }
-
-    void run() {
-        string cmd;
-        while (cin >> cmd) {
-            if (cmd == "p") {
-                printGrid();
-            } else if (cmd == "s") {
-                step();
+        // Swap pointers
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                current[i][j] = next[i][j];
             }
         }
     }
 };
 
+int whitespace(char c) {
+    return c == ' ' || c == '\n' || c == '\r' || c == '\t';
+}
+
+char getNext() {
+    char c = getchar();
+    while (whitespace(c)) c = getchar();
+    return c;
+}
+
 int main() {
-    GameOfLife game;
-    game.readInitialGrid();
-    game.run();
+    Grid g;
+    g.readGrid();
+
+    char cmd;
+    while (cin >> cmd) {
+        if (cmd == 's') {
+            g.updateGrid();
+        } else if (cmd == 'p') {
+            g.printGrid();
+        }
+    }
+
     return 0;
 }

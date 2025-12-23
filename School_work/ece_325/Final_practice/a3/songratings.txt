@@ -1,0 +1,6 @@
+Contribution;Guitar,Guitar,Drums;4.5
+Nobody's Coder;Mic,Drums,Mic;10
+Nobody's Coder;Guitar,Drums,Mic;1
+Contribution;Guitar,Guitar,Drums;8.5
+Contribution;Guitar,Guitar,Drums;9.5
+Contribution;Guitar,Drums,Guitar;1
