@@ -11,8 +11,7 @@ public class BandNameGenerator {
 	
 	boolean adjectivesLoaded = false;
 	boolean nounsLoaded = false;
-	boolean generated = false;
-
+	
 	String adjectivesFile;
 	String nounsFile;
 	
@@ -27,16 +26,16 @@ public class BandNameGenerator {
 	 */
 	public void loadAdjectives() {
 		adjectives = loadTxt(adjectivesFile);
-		
+
 	}
 	
 	/**
 	 * Load the nouns file and initialize that part of the generator.
 	 */
 	public void loadNouns() {
-		nouns = loadTxt(nounsFile); 
+		nouns = loadTxt(nounsFile);
+
 	}
-	
 			
 	/**
 	 * Return a string that capitalizes the first letter of s and lowercases the rest. So for example,
@@ -47,10 +46,9 @@ public class BandNameGenerator {
 	 * @return
 	 */
 	public String capitalizeFirst(String s) {
-		String cap = s.substring(0, 1).toUpperCase() + s.substring(1);
-		return cap;
+		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+		
 	}
-	
 	
 	
 	/** 
@@ -61,23 +59,26 @@ public class BandNameGenerator {
 	public String generateName() {
 		
 		Random r = new Random();
+		int r1 = 0;
+		int r2 = 0;
+		int r3 = 0;
+		
+		
+		r1 = r.nextInt(adjectives.length);
+		r2 = r.nextInt(adjectives.length);
+		r3 = r.nextInt(nouns.length);
+		
+		
 
-		//randomlly generate adjectives and nouns
-		String adj1 = adjectives[r.nextInt(adjectives.length)];
-		String adj2 = adjectives[r.nextInt(adjectives.length)];
-		String noun = nouns[r.nextInt(nouns.length)];
 
-		adj1 = capitalizeFirst(adj1);
-		adj2 = capitalizeFirst(adj2); 
-		noun = capitalizeFirst(noun); 
+		String first_adj = adjectives[r1];
+		String second_adj = adjectives[r2];;
+		String third_noun = nouns[r3];;
 
-		if (generated = true){
-			return adj1 + " " + adj2 + " " + noun;
-		}
-		else{
-			return "UNINITIALIZED";
-		}
-	
+		
+
+		return capitalizeFirst(first_adj + " " + second_adj + " " + third_noun);
+			
 	}
 
 	
@@ -143,16 +144,14 @@ public class BandNameGenerator {
 	public static void main(String[] args) {
 		// create a BandNameGenerator and initialize it
 		BandNameGenerator generator = new BandNameGenerator("adjectives.txt", "nouns.txt");
-		
-		// loads the adjectives and the nouns 
+
 		generator.loadAdjectives();
 		generator.loadNouns();
-
-		//System.out.println("hello" + generator.adjectives[1]);
-
-		for (int i = 0; i< 20; i++){
+		// generate and print 20 names for your band
+		for (int i = 0; i < 20; i++){
 			System.out.println(generator.generateName());
 		}
+		
 		
 		
 	}
