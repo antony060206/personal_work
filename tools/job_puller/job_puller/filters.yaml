@@ -1,0 +1,13 @@
+# Only listings matching ALL of these categories are kept (blank list = no
+# restriction on that category). Everything is matched case-insensitively.
+keywords:
+  - electrical engineering
+  - controls
+disciplines:
+  - electrical engineering
+job_types:
+  - intern
+  - co-op
+  - student
+locations:
+  - canada
