@@ -14,6 +14,9 @@ xlabel('Time (s)')
 ylabel('Amplitude')
 title('baila.wav signal')
 
+% d)
+x3_sum = sum(abs(x3).^2);
+
 % e)
 x3s = x3(1 : floor(num_samples / 2), :);
 
