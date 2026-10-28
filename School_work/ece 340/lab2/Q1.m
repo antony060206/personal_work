@@ -3,7 +3,7 @@ figure;
 
 subplot(2,1,1)
 x1 = 0 : 4;
-stem(x1)
+stem(x1,x1)
 xlabel('k'); 
 ylabel('x[k]');
 title('x[k] = k,   0 \leq k \leq 4');
